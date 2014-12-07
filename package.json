@@ -1,0 +1,20 @@
+{
+  "name": "animal-namer",
+  "version": "1.0.0",
+  "description": "Generate Synonym+Animal Usernames",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "./node_modules/coffee-script/bin/coffee -bc app.coffee"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.3.11",
+    "lodash": "^2.4.1",
+    "wordpos": "^0.1.15"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.8.0"
+  }
+}
