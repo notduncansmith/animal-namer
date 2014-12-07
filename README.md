@@ -2,6 +2,10 @@
 
 Animal names for everybody!
 
+```
+npm install animal-namer
+```
+
 # What?
 
 This module generates alliterative phrases in the following format: `{adjective} {animalName}`
