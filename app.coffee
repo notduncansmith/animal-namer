@@ -3,11 +3,12 @@ wp = new WP()
 Promise = require 'bluebird'
 fs = require 'fs'
 _ = require 'lodash'
+path = require 'path'
 
 Promise.promisifyAll fs
 
 animal = -> 
-  fs.readFileAsync 'animals.json', 'utf8'
+  fs.readFileAsync path.join(__dirname, 'animals.json'), 'utf8'
   .then JSON.parse
   .then _.sample
 
