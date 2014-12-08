@@ -4,15 +4,30 @@ path = require 'path'
 
 describe 'AnimalNamer', ->
 
+  # Helper to generate checkForLoad tests
+  checkForLoad = (method, it) ->
+    it 'loads the animal list if it hasn\'t already been loaded', (done) ->
+      unloaded = new AnimalNamer()
+      spyOn(unloaded, 'load').andCallThrough()
+
+      unloaded[method]().then -> unloaded[method]()
+      .then ->
+        expect(unloaded.load.calls.length).toEqual 1  
+        done()
+
   # Load specs
 
   # These specs MUST RUN FIRST, because
   # they set up the namer instance 
   # to be used in the rest of the tests
   describe '#load', ->
-    it 'loads and indexes the animal dictionary', (done) ->
+    it 'loads the animal dictionary', (done) ->
       namer.load().then (result) ->
         expect(namer.animals[0]).toEqual 'Adelie'
+        done()
+
+    it 'indexes the animal dictionary', (done) ->
+      namer.load().then (result) ->
         expect(namer.indexed.a[0]).toEqual 'Adelie'
         done()
 
@@ -23,9 +38,18 @@ describe 'AnimalNamer', ->
       customNamer.load().then (result) ->
         expect(customNamer.animals[0]).toEqual 'Foo'
         done()
+
+    it 'marks the namer as loaded', (done) ->
+      unloaded = new AnimalNamer()
+      unloaded.load().then -> 
+        expect(unloaded.loaded).toEqual true
+        done()
+
   
   # Name Specs
   describe '#name', ->
+    checkForLoad('name', it)
+
     it 'returns an alliterative name', (done) ->
       namer.name().then (result) ->
         [adjective, animal] = result.split ' '
@@ -37,9 +61,12 @@ describe 'AnimalNamer', ->
         [adjective, animal] = result.split ' '
         expect(animal[0]).toEqual 'A'
         done()
+      
 
   # Adjective Specs
   describe '#adj', ->
+    checkForLoad('adj', it)
+
     it 'returns an adjective', (done) ->
       namer.adj().then (result) ->
         expect(result).toEqual jasmine.any(String)
@@ -52,6 +79,8 @@ describe 'AnimalNamer', ->
 
   # Animal Specs
   describe '#animal', ->
+    checkForLoad('animal', it)
+
     it 'returns an animal', (done) ->
       namer.animal().then (result) ->
         expect(result).toEqual jasmine.any(String)
