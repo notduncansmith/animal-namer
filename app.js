@@ -27,6 +27,12 @@ adj = function(letter) {
   });
 };
 
+adj = function() {
+  return new Promise(function(resolve, reject) {
+    return wp.randAdjective({}, resolve);
+  });
+};
+
 name = function() {
   var ad, an;
   ad = '';
