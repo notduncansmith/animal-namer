@@ -61,6 +61,7 @@ class AnimalNamer
     .then (data) =>
       @animals = data
       @indexed = @index data
+      @indexed = @_index data
       return this
 
   loadSync: (filePath) ->
@@ -71,5 +72,8 @@ class AnimalNamer
     @indexed = @_index data
     @loaded = true
     return this
+
+  _index: (animals) ->
+    _.groupBy(animals, (s) -> s[0].toLowerCase())
 
 module.exports = AnimalNamer
