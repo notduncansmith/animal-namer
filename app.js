@@ -26,32 +26,39 @@ AnimalNamer = (function() {
     this.path = animalPath || defaultPath;
     this.animals = [];
     this.indexed = {};
+    this.loaded = false;
   }
 
   AnimalNamer.prototype.animal = function(letter) {
-    return new Promise((function(_this) {
-      return function(resolve, reject) {
-        if (letter != null) {
-          return resolve(_.sample(_this.indexed[letter.toLowerCase()]));
-        } else {
-          return resolve(_.sample(_this.animals));
-        }
+    return this._maybeLoad().then((function(_this) {
+      return function() {
+        return new Promise(function(resolve, reject) {
+          if (letter != null) {
+            return resolve(_.sample(_this.indexed[letter.toLowerCase()]));
+          } else {
+            return resolve(_.sample(_this.animals));
+          }
+        });
       };
     })(this));
   };
 
   AnimalNamer.prototype.adj = function(letter) {
-    var promise;
-    promise = new Promise(function(resolve, reject) {
-      if (letter != null) {
-        return wp.randAdjective({
-          startsWith: letter.toLowerCase()
-        }, resolve);
-      } else {
-        return wp.randAdjective(resolve);
-      }
-    });
-    return promise.get(0).then(capitalize);
+    return this._maybeLoad().then((function(_this) {
+      return function() {
+        var promise;
+        promise = new Promise(function(resolve, reject) {
+          if (letter != null) {
+            return wp.randAdjective({
+              startsWith: letter.toLowerCase()
+            }, resolve);
+          } else {
+            return wp.randAdjective(resolve);
+          }
+        });
+        return promise.get(0).then(capitalize);
+      };
+    })(this));
   };
 
   AnimalNamer.prototype.adjective = function(letter) {
@@ -59,32 +66,53 @@ AnimalNamer = (function() {
   };
 
   AnimalNamer.prototype.name = function(letter) {
-    var animal;
-    animal = '';
-    return this.animal(letter).then((function(_this) {
-      return function(result) {
-        animal = result;
-        return _this.adj(animal[0]);
+    return this._maybeLoad().then((function(_this) {
+      return function() {
+        var animal;
+        animal = '';
+        return _this.animal(letter).then(function(result) {
+          animal = result;
+          return _this.adj(animal[0]);
+        }).then(function(adjective) {
+          return "" + adjective + " " + animal;
+        });
       };
-    })(this)).then(function(adjective) {
-      return "" + adjective + " " + animal;
-    });
-  };
-
-  AnimalNamer.prototype.index = function(animals) {
-    return _.groupBy(animals, function(s) {
-      return s[0].toLowerCase();
-    });
+    })(this));
   };
 
   AnimalNamer.prototype.load = function(filePath) {
     return fs.readFileAsync(filePath || this.path, 'utf8').then(JSON.parse).then((function(_this) {
       return function(data) {
         _this.animals = data;
-        _this.indexed = _this.index(data);
+        _this.indexed = _this._index(data);
+        _this.loaded = true;
         return _this;
       };
     })(this));
+  };
+
+  AnimalNamer.prototype.loadSync = function(filePath) {
+    var data;
+    data = fs.readFileSync(filePath || this.path, 'utf8');
+    data = JSON.parse(animals);
+    this.animals = data;
+    this.indexed = this._index(data);
+    this.loaded = true;
+    return this;
+  };
+
+  AnimalNamer.prototype._index = function(animals) {
+    return _.groupBy(animals, function(s) {
+      return s[0].toLowerCase();
+    });
+  };
+
+  AnimalNamer.prototype._maybeLoad = function() {
+    if (this.loaded) {
+      return Promise.resolve(this);
+    } else {
+      return this.load();
+    }
   };
 
   return AnimalNamer;
