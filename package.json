@@ -6,7 +6,7 @@
   "repository": "git://github.com/notduncansmith/animal-namer.git",
   "homepage": "https://github.com/notduncansmith/animal-namer",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine-node --color --coffee spec",
     "compile": "./node_modules/coffee-script/bin/coffee -bc app.coffee"
   },
   "author": "Duncan Smith",
