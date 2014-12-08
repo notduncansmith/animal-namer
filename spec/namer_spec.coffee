@@ -45,6 +45,30 @@ describe 'AnimalNamer', ->
         expect(unloaded.loaded).toEqual true
         done()
 
+  # Synchronous Loading Specs
+  describe '#loadSync', ->
+    it 'loads the animal dictionary', ->
+      unloaded = new AnimalNamer()
+      unloaded.loadSync()
+      expect(unloaded.animals[0]).toEqual 'Adelie'
+
+    it 'indexes the animal dictionary', ->
+      unloaded = new AnimalNamer()
+      unloaded.loadSync()
+      expect(unloaded.indexed.a[0]).toEqual 'Adelie'
+
+    it 'loads a custom animal dictionary from a file path in the constructor', ->
+      loadPath = path.join __dirname, 'test.json'
+      customNamer = new AnimalNamer(loadPath)    
+
+      customNamer.loadSync()
+      expect(customNamer.animals[0]).toEqual 'Foo'
+
+    it 'marks the namer as loaded', ->
+      unloaded = new AnimalNamer()
+      unloaded.loadSync()
+      expect(unloaded.loaded).toEqual true
+
   
   # Name Specs
   describe '#name', ->

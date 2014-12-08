@@ -94,7 +94,7 @@ AnimalNamer = (function() {
   AnimalNamer.prototype.loadSync = function(filePath) {
     var data;
     data = fs.readFileSync(filePath || this.path, 'utf8');
-    data = JSON.parse(animals);
+    data = JSON.parse(data);
     this.animals = data;
     this.indexed = this._index(data);
     this.loaded = true;

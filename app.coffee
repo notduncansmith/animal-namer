@@ -64,7 +64,7 @@ class AnimalNamer
 
   loadSync: (filePath) ->
     data = fs.readFileSync (filePath or @path), 'utf8'
-    data = JSON.parse animals
+    data = JSON.parse data
 
     @animals = data
     @indexed = @_index data
