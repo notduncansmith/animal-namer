@@ -14,7 +14,10 @@ animal = ->
 
 adj = (letter) ->
   new Promise (resolve, reject) ->
-    wp.randAdjective {startsWith: letter.toLowerCase()}, resolve
+    if letter?
+      wp.randAdjective {startsWith: letter.toLowerCase()}, resolve
+    else
+      wp.randAdjective {}, resolve
 
 name = ->
   ad = ''
