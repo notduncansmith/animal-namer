@@ -63,4 +63,13 @@ class AnimalNamer
       @indexed = @index data
       return this
 
+  loadSync: (filePath) ->
+    data = fs.readFileSync (filePath or @path), 'utf8'
+    data = JSON.parse animals
+
+    @animals = data
+    @indexed = @_index data
+    @loaded = true
+    return this
+
 module.exports = AnimalNamer
