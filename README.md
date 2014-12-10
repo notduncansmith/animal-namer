@@ -82,6 +82,7 @@ Thanks to the [Nicole Whitehead](https://github.com/ncwhitehead), animal-namer i
 # Contributors
 
 Duncan Smith ([notduncansmith](https://github.com/notduncansmith))
+
 Nicole Whitehead ([ncwhitehead](https://github.com/ncwhitehead))
 
 
