@@ -34,7 +34,7 @@ namer = new AnimalNamer();
 
 // You can use your own file instead
 // Just put an array of strings into the file
-customNamer = new AnimalNamer('path/to/my/animals.json'); 
+customNamer = new AnimalNamer('path/to/my/animals.json');
 ```
 
 ## Get a name
@@ -74,6 +74,9 @@ namer.loadSync();
 // And yes, you can still use your own file
 namer.loadSync('path/to/my/animals.json');
 ```
+#API
+
+Thanks to the [Nicole Whitehead](https://github.com/ncwhitehead), animal-namer is now available as an API at [animal-namer-api](https://github.com/ncwhitehead/animal-namer-api). The API is available to hit at [Whimsical Wordimal](http://www.whimsicalwordimal.com/).
 
 
 # Contributors
@@ -82,10 +85,9 @@ Duncan Smith ([notduncansmith](https://github.com/notduncansmith))
 Nicole Whitehead ([ncwhitehead](https://github.com/ncwhitehead))
 
 
-
 # Contributing
 
-I'm happy to review any pull requests!  
+I'm happy to review any pull requests!
 
 I just ask that you follow a few guidelines before submitting:
 
