@@ -74,7 +74,7 @@ namer.loadSync();
 // And yes, you can still use your own file
 namer.loadSync('path/to/my/animals.json');
 ```
-#API
+# API
 
 Thanks to the [Nicole Whitehead](https://github.com/ncwhitehead), animal-namer is now available as an API at [animal-namer-api](https://github.com/ncwhitehead/animal-namer-api). The API is available to hit at [Whimsical Wordimal](http://www.whimsicalwordimal.com/).
 
